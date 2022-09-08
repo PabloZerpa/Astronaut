@@ -5,7 +5,7 @@ import {NavLink} from 'react-router-dom';
 import { FaSearch, FaNewspaper, FaVideo, FaImage } from "react-icons/fa";
 
 const links = [
-	{ url: '/search', text: <FaSearch className='text-2xl hover:text-blue-600 dark:hover:text-yellow-400' /> },
+	{ url: '/', text: <FaSearch className='text-2xl hover:text-blue-600 dark:hover:text-yellow-400' /> },
   	{ url: '/news', text: <FaNewspaper className='text-2xl hover:text-blue-600 dark:hover:text-yellow-400' /> },
   	{ url: '/images', text: <FaImage className='text-2xl hover:text-blue-600 dark:hover:text-yellow-400' /> },
   	{ url: '/videos', text: <FaVideo className='text-2xl hover:text-blue-600 dark:hover:text-yellow-400' /> },

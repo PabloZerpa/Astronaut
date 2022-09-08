@@ -3,7 +3,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import { Search } from './Search';
 
-import { FaUserAstronaut, FaSun, FaMoon } from "react-icons/fa";
+import { FaSpaceShuttle, FaUserAstronaut, FaSun, FaMoon } from "react-icons/fa";
 
 export const Navbar = ({darkTheme, setDarkTheme}) => {
 	return(
@@ -11,7 +11,7 @@ export const Navbar = ({darkTheme, setDarkTheme}) => {
 			<div className="flex justify-between items-center space-x-5 w-screen">
 				<Link to='/'>
 					<p className="flex text-2xl bg-blue-500 font-bold text-white py-1 px-2 rounded dark:bg-yellow-400 dark:text-gray-900"> 
-						<FaUserAstronaut className='mt-1 mr-2'/> Astronaut
+						<FaSpaceShuttle className='mt-1 mr-2 -rotate-90'/> Astronaut
 					</p>
 				</Link>
 
