@@ -3,4 +3,4 @@
 ## Url:
 
 # Screenshot
-![](../public/astronaut.png)
+![](./public/astronaut.png)
