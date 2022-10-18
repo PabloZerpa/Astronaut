@@ -18,35 +18,4 @@ export const Footer = () => {
 	)
 }
 
-// useEffect(() => {
-	// 	console.log("PRUEBA");
-	// 	axios.get('https://api.duckduckgo.com/?q=elon+musk&format=json')
-	// 	.then(function (response) 
-	// 	{
-	// 		console.log(response.json());
-	// 	})
-
-	// }, []);
-
-	// let ddg = new ddg('my-app-name'); 
-
-	// ddg.instantAnswer('superman', {skip_disambig: '0'}, function(err, response) {
-	// console.log(response);
-	// });
-
-	// useEffect(() => {
-	// 	console.log("PRUEBA");
-	// 	axios.get('https://app.scrapingbee.com/api/v1/store/google', 
-	// 	{
-	// 		params: {
-	// 			'api_key': '52BBF6U2F0NXIP55DW5OWW8S5J6ZSE0LEBQ8BG1Q0WK690PCKRBB375OWTJ9A0NAYWV0063MD57T1SFZ',
-	// 			'search': 'elon musk',
-	// 		}
-	// 	}).then(function (response) {
-	// 		setResultado(response.data.organic_results[0]);
-	// 		console.log(response.data.organic_results[0]);
-	// 	})
-
-	// }, []); 
-
 

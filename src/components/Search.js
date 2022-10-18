@@ -1,6 +1,6 @@
 
-import React, {useState,useEffect} from 'react';
-import {useDebounce} from 'use-debounce';
+import React, { useState, useEffect } from 'react';
+import { useDebounce } from 'use-debounce';
 
 import { useResultContext } from './context/ResultContextProvider';
 import { Links } from './Links';
@@ -25,7 +25,7 @@ export const Search = () => {
 				placeholder="Search"
 				onChange={(e) => setText(e.target.value)}
 			/>
-			{!text && (
+			{text && (
 				<button type="button" className="absolute top-1.5 right-4 text-2xl text-gray-500" onClick={() => setText('')}>
 					<FaRegTimesCircle className='mt-2'/>
 				</button>

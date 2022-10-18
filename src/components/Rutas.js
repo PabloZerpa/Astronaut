@@ -11,7 +11,6 @@ export const Rutas = () => {
 
 				<Route exact path="/" element={<Results />} />
 				<Route exact path="/images" element={<Results />} />
-				<Route exact path="/news" element={<Results />} />
 				<Route exact path="/videos" element={<Results />} />
 
 			</Routes>
