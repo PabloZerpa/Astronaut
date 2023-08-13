@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useResultContext } from './context/ResultContextProvider';
+import ReactPlayer from 'react-player';
+import axios from 'axios';
 import loader from "../assets/loader.svg";
 
 export const Results = () => {
 
 	const location = useLocation();
 	const {searchTerm} = useResultContext();
-
 	const [isLoading, setIsLoading] = useState(true);
 	const [data, setData] = useState(null);
 
-	const webUrl = 'https://bing-web-search1.p.rapidapi.com';
-	const imgUrl = 'https://bing-image-search1.p.rapidapi.com';
-	const videoUrl = 'https://youtube138.p.rapidapi.com';
+	const webUrl = 'http://localhost:3001/';
+	const imgUrl = 'http://localhost:3001/images';
+	const videoUrl = 'http://localhost:3001/videos';
 
-	const getResults = async (type, dataType) => {
+	const getResults = async (term, dataType) => {
 		let baseUrl;
 		if(dataType === 'web'){
 			baseUrl = webUrl; 
@@ -27,24 +28,20 @@ export const Results = () => {
 			baseUrl = videoUrl;
 		}
 
-		const response = await fetch(`${baseUrl}${type}`, {
-			method: 'GET',
-			headers: {
-				'X-BingApis-SDK': 'true',
-				'X-RapidAPI-Key': process.env.REACT_APP_API,
-				'X-RapidAPI-Host': `bing-${dataType}-search1.p.rapidapi.com`
-			}
-		});
-		const x = await response.json();
+		const { data } = await axios.post(`${baseUrl}`, {term});
 
 		if(dataType === 'web'){
-			setData(x['webPages']['value']);
+			setData(data.organic_results);
 		}
 		else if(dataType === 'image'){
-			setData(x['value']);
+			const original = data.images_results;
+			const datos = original.slice(0, 40);
+			setData(datos);
 		}
 		else if(dataType === 'video'){
-			setData(x['value']);
+			const original = data.video_results;
+			const datos = original.slice(0, 10);
+			setData(datos);
 		}
 		setIsLoading(false);
 	}
@@ -54,13 +51,13 @@ export const Results = () => {
 		{
 			setIsLoading(true);
 			if(location.pathname === '/'){
-				getResults(`/search?q=${searchTerm}&count=12`, 'web');
+				getResults(searchTerm, 'web');
 			}
 			else if(location.pathname === '/images'){
-				getResults(`/images/search?q=${searchTerm}&count=10`, 'image');
+				getResults(searchTerm, 'image');
 			}
 			else if(location.pathname === '/videos'){
-				getResults(`/search/?q=${searchTerm}`, 'video');
+				getResults(searchTerm, 'video');
 			}
 		}
 		
@@ -79,44 +76,74 @@ export const Results = () => {
 	switch(location.pathname){
 		case '/':
 			return (
-				<div className="flex flex-wrap justify-between space-y-6 sm:px-56">
-					{data.map(({name,url}, index) => (
-						<div key={index} className="md:w-2/5 w-full">
-							<a href={url} target="_blank" rel="noreferrer"> 
-								<p className="text-sm">
-									{url}
-								</p>
-								<p className="text-lg hover:underline dark:text-blue-300 text-blue-700">
-									{name}
-								</p>
-							</a>
-						</div>
-					))}
+				
+				<div className='flex flex-wrap justify-center items-center'>
+					<div className='w-3/4 grid grid-cols-1 md:grid-cols-2 gap-8'>
+						{data.map((result, index) => {
+							return (
+							<div key={index}>
+
+								<a href={result.link} target='__blank' className='flex items-center gap-4'>
+									<img src={result.favicon} alt='img' className='w-6' loading="lazy" />
+									<h5 className='text-lg text-blue-500 font-bold hover:underline'>{result.title}</h5>
+								</a>
+
+								<div className='truncate'>
+									<a href={result.link} target='__blank' className='text-sm text-blue-500 hover:underline'>
+										{result.link}
+									</a>
+								</div>
+								<p className='text-base text-black dark:text-white'>{result.snippet}</p>
+							</div>
+							)
+						})}
+					</div>
 				</div>
 			);
 		case '/images':
 			return(
-				<div className="flex flex-wrap justify-center items-center">
-					{data.map(({thumbnailUrl, webSearchUrl, name}, index) => (
-						<a className="sm:p-3 p-5" href={webSearchUrl} key={index} target="_blank" rel="noreferrer">
-							<img className='w-480 h-360' src={thumbnailUrl} alt={name} />
-							<p className="w-30 break-words text-sm mt-2">
-								{name}
-							</p>
-						</a>
-					))}
+				<div className='flex flex-wrap justify-center items-center'>
+					<div className='w-3/4 grid grid-cols-1 md:grid-cols-2 gap-8'>
+						{data.map((result, index) => {
+							return (
+								<a key={index} href={result.link} target='__blank' className='flex flex-col items-center gap-2'>
+									<img src={result.thumbnail} alt='img' loading="lazy" />
+				
+									<div className='flex gap-2'>
+										<img src={result.source_logo} alt='img' className='w-6' loading="lazy" />
+										<span className='flex items-center gap-4'>{result.source}</span>
+									</div>
+									<h5 className='text-lg text-blue-500 font-bold hover:underline'>{result.title}</h5>
+								</a>
+							)
+						})}
+					</div>
 				</div>
 			);
 		case '/videos':
 			return(
-				<div className="flex flex-wrap justify-center items-center">
-					{data.map((webSearchUrl,index) => (
-						<div key={index} className="p-3">
-							<video width="480" height="320" controls>
-								<source src={webSearchUrl} type="video/mp4" />
-							</video>
-						</div>
-					))}
+				<div className='flex flex-wrap justify-center items-center'>
+					<div className='w-3/4 grid grid-cols-1 md:grid-cols-2 gap-8'>
+						{data.map((result, index) => {
+							return (
+								<div key={index} className='flex flex-col items-center gap-2'>
+
+									<ReactPlayer
+										url={result.link}
+										className='react-player'
+										width='480px' 
+										height='280px'
+									/>
+									<a href={result.link} target='__blank' className='text-lg text-blue-500 font-bold hover:underline'>{result.title}</a>
+				
+									<a href={result.channel.link} target='__blank' className='flex gap-2'>
+									<img src={result.channel.thumbnail} alt='img' className='w-8' loading="lazy" />
+									<span className='flex items-center gap-4'>{result.channel.name}</span>
+									</a>
+								</div>
+							)
+						})}
+					</div>
 				</div>
 			);
 	}
