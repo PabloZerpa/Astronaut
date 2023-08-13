@@ -12,9 +12,9 @@ export const Results = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [data, setData] = useState(null);
 
-	const webUrl = 'http://localhost:3001/';
-	const imgUrl = 'http://localhost:3001/images';
-	const videoUrl = 'http://localhost:3001/videos';
+	const webUrl = `${process.env.REACT_APP_URL}`;
+	const imgUrl = `${process.env.REACT_APP_URL}/images`;
+	const videoUrl = `${process.env.REACT_APP_URL}/videos`;
 
 	const getResults = async (term, dataType) => {
 		let baseUrl;
